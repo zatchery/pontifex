@@ -56,18 +56,9 @@ func init() {
 	encryptCmd.Flags().StringP("keystream", "k", "", "The name of the keystream you want to use in your <keyname>.ptfx file")
 	encryptCmd.Flags().StringP("keystreamfile", "s", "", "The file with the keystreams you want to use. By default it will look for a default keyfile at $HOME/.pontifex")
 	encryptCmd.Flags().StringP("output", "o", "", "The name of the output cypher text file")
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// encryptCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// encryptCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 func encrypt(plaintext string, key string) string {
+	
 	return "HDEDKEAPOI EWSDFKJ DIUWKF"
 }
