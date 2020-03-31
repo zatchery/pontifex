@@ -1,4 +1,4 @@
-// Copyright © 2019 NAME HERE <EMAIL ADDRESS>
+// Copyright © 2019 Zachary Morin <me@zatchery.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,7 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 package cmd
 
 import (
@@ -46,7 +45,7 @@ If you pass a TEXT to decrypt pontifex will ignore the -f option`,
 		}
 
 		if verbose {
-			fmt.Printf("cyphertext: %s\nkeystream: %s\nkeystreamfile: %s\n", cyphertext, keystreamFlag, keystreamfileFlag)
+			fmt.Printf("cyphertext: %s\nkeystream: %s\n", cyphertext, keystreamFlag)
 		}
 
 		keyfile := "Default"
@@ -76,6 +75,6 @@ func decrypt(cyphertext string, keystream []string, verbose bool) string {
 	if verbose {
 		fmt.Printf("Decrypting: %s\n", cyphertext)
 	}
-	translate(cyphertext, keystream)
+	getCypherText(cyphertext, keystream)
 	return "PONTIFICUS CRYPTUS TODOS"
 }

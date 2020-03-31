@@ -23,15 +23,16 @@ import (
 // encryptCmd represents the encrypt command
 var encryptCmd = &cobra.Command{
 	Use:   "encrypt",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Take plaintext and ecrypt it using a specified key",
+	Long: `Example usages:
+	pontifex encrypt --plaintext <Message to encrypt> --keystream <Keystream named in the ~/.pontifex file>
+	pontifex encrypt --p <Message to encrypt> --k <Keystream named in the ~/.pontifex file>
+	pontifex encrypt --keystreamfile <Path to non default keystream file> -p <Message to encrypt>
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+
+Pontifex also known as the Solitaire Cypher (https://en.wikipedia.org/wiki/Solitaire_(cipher))
+is a way to use a deck of cards to communicate securely.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("encrypt called")
 		var plaintextFlag, _ = cmd.Flags().GetString("plaintext")
 		var plainfileFlag, _ = cmd.Flags().GetString("plainfile")
 		var keystreamFlag, _ = cmd.Flags().GetString("keystream")
@@ -42,10 +43,32 @@ to quickly create a Cobra application.`,
 			fmt.Printf("plaintext: %s,\nplainfile: %s,\nkeystream: %s,\nkeystreamfile: %s\n", plaintextFlag, plainfileFlag, keystreamFlag, keystreamfileFlag)
 		}
 
+		var plaintext = ""
+		if len(args) == 0 || len(args[0]) == 0 {
+			//Use the -f option
+			if verbose {
+				fmt.Printf("Reading plaintext from file: %s\n", plainfileFlag)
+			}
+			plaintext = "Readintextfromfile"
+		} else {
+			plaintext = args[0]
+		}
+
+		if verbose {
+			fmt.Printf("plaintext: %s\nkeystream: %s\n", plaintext, keystreamFlag)
+		}
+
+		keyfile := "Default"
+		//Read in key
+		if len(keystreamfileFlag) > 0 {
+			//Use the specified keystream file
+			keyfile = keystreamfileFlag
+		}
+
 		//Read in plaintext and keystream
-		var cypherText = encrypt(plainfileFlag, keystreamFlag)
-		//if output file specifed read to file otherwise
-		fmt.Println(cypherText)
+		var keyStream = readKey(keyfile, keystreamFlag, verbose)
+		var cypherText, cypherDeck = encrypt(plaintext, keyStream, verbose)
+		fmt.Printf("%s\t%v", cypherText, cypherDeck)
 	},
 }
 
@@ -58,7 +81,10 @@ func init() {
 	encryptCmd.Flags().StringP("output", "o", "", "The name of the output cypher text file")
 }
 
-func encrypt(plaintext string, key string) string {
-	
-	return "HDEDKEAPOI EWSDFKJ DIUWKF"
+func encrypt(plaintext string, keystream []string, verbose bool) (string, []string) {
+	if verbose {
+		fmt.Printf("Encrypting: %s\n", plaintext)
+		fmt.Println("Using Keystream: ", keystream)
+	}
+	return getCypherText(plaintext, keystream)
 }
