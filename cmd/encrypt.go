@@ -1,4 +1,4 @@
-// Copyright © 2019 NAME HERE <EMAIL ADDRESS>
+// Copyright © 2019 Zachary Morin <me@zatchery.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -67,8 +67,8 @@ is a way to use a deck of cards to communicate securely.`,
 
 		//Read in plaintext and keystream
 		var keyStream = readKey(keyfile, keystreamFlag, verbose)
-		var cypherText, cypherDeck = encrypt(plaintext, keyStream, verbose)
-		fmt.Printf("%s\t%v", cypherText, cypherDeck)
+		var cypherText, _ = encrypt(plaintext, keyStream, verbose)
+		fmt.Printf("%s", cypherText)
 	},
 }
 
@@ -86,5 +86,5 @@ func encrypt(plaintext string, keystream []string, verbose bool) (string, []stri
 		fmt.Printf("Encrypting: %s\n", plaintext)
 		fmt.Println("Using Keystream: ", keystream)
 	}
-	return getCypherText(plaintext, keystream)
+	return getCypherText(plaintext, keystream, verbose)
 }

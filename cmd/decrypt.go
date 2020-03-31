@@ -44,10 +44,6 @@ If you pass a TEXT to decrypt pontifex will ignore the -f option`,
 			cyphertext = args[0]
 		}
 
-		if verbose {
-			fmt.Printf("cyphertext: %s\nkeystream: %s\n", cyphertext, keystreamFlag)
-		}
-
 		keyfile := "Default"
 		//Read in key
 		if len(keystreamfileFlag) > 0 {
@@ -57,7 +53,7 @@ If you pass a TEXT to decrypt pontifex will ignore the -f option`,
 
 		//Read in cyphertext and keystream
 		var keyStream = readKey(keyfile, keystreamFlag, verbose)
-		var plaintext = decrypt(cyphertext, keyStream, verbose)
+		var plaintext, _ = decrypt(cyphertext, keyStream, verbose)
 		fmt.Println(plaintext)
 	},
 }
@@ -71,10 +67,6 @@ func init() {
 	decryptCmd.Flags().StringP("output", "o", "", "The name of the output plain text file")
 }
 
-func decrypt(cyphertext string, keystream []string, verbose bool) string {
-	if verbose {
-		fmt.Printf("Decrypting: %s\n", cyphertext)
-	}
-	getCypherText(cyphertext, keystream)
-	return "PONTIFICUS CRYPTUS TODOS"
+func decrypt(cyphertext string, keystream []string, verbose bool) (string, []string) {
+	return getPlainText(cyphertext, keystream, verbose)
 }

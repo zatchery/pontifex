@@ -169,7 +169,7 @@ func readKey(filename string, keyname string, verbose bool) []string {
 	panic("")
 }
 
-func getCypherText(plaintext string, deck []string) (string, []string) {
+func getCypherText(plaintext string, deck []string, verbose bool) (string, []string) {
 
 	cryptext := ""
 	cryptDeck := deck
@@ -180,10 +180,45 @@ func getCypherText(plaintext string, deck []string) (string, []string) {
 		cypherTextVal := (keystreamVal + plaintextCharVal) % len(runeVals)
 		cypherTextChar := numVals[cypherTextVal]
 		cryptext = cryptext + cypherTextChar
+		if verbose {
+			fmt.Printf("plaintextChar: %q\n", plaintextChar)
+			fmt.Printf("plaintextCharVal: %d\n", plaintextCharVal)
+			fmt.Printf("keystreamVal: %d\n", keystreamVal)
+			fmt.Printf("cypherTextChar: %s\n", cypherTextChar)
+			fmt.Printf("cypherTextVal: %d\n", cypherTextVal)
+		}
 		cryptDeck = cutDeck
 	}
 
 	return cryptext, cryptDeck
+}
+
+func getPlainText(cyphertext string, deck []string, verbose bool) (string, []string) {
+	plaintext := ""
+	cryptDeck := deck
+	for _, cyphertextChar := range cyphertext {
+		keystream, cutDeck := recursiveCut(cryptDeck)
+		keystreamVal := cardVals[keystream]
+		cyphertextCharVal := runeVals[cyphertextChar]
+		plaintextTextVal := (cyphertextCharVal - keystreamVal)
+		//nega mod
+		for plaintextTextVal < 0 {
+			plaintextTextVal += len(runeVals)
+		}
+		plainTextChar := numVals[plaintextTextVal]
+		plaintext = plaintext + plainTextChar
+		if verbose {
+			fmt.Printf("cyphertextChar: %q\n", cyphertextChar)
+			fmt.Printf("keystreamVal: %d\n", keystreamVal)
+			fmt.Printf("cyphertextCharVal: %d\n", cyphertextCharVal)
+			fmt.Printf("plaintextText: %s\n", plainTextChar)
+			fmt.Printf("plaintextTextVal: %d\n", plaintextTextVal)
+			fmt.Printf("plaintext: %s\n\n", plaintext)
+		}
+		cryptDeck = cutDeck
+	}
+
+	return plaintext, cryptDeck
 }
 
 func recursiveCut(deck []string) (string, []string) {
@@ -194,8 +229,8 @@ func recursiveCut(deck []string) (string, []string) {
 	//count n number of cards into the deck where n is the first card if it is a joker then repeat the keystream algorithm
 	firstCard := cut2[0]
 	firstCardVal := cardVals[firstCard]
-	
-	keystream := cut2[firstCardVal % len(cut2)]
+
+	keystream := cut2[firstCardVal%len(cut2)]
 
 	if cardVals[keystream] == 27 || cardVals[keystream] == 28 {
 		return recursiveCut(cut2)
@@ -265,6 +300,11 @@ func triCut(deck []string) []string {
 func countCut(deck []string) []string {
 	//Get the value of the last card in the deck
 	count := cardVals[deck[len(deck)-1]]
+	if count == len(deck) {
+		//if you are going to take the number of cards and put them in front of themselves...
+		return deck
+	}
+	// fmt.Printf("Count: %d\n", count)
 	//Take that number of cards
 	topDeck := deck[:count]
 	//to the end of the deck -1 card
