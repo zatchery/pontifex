@@ -16,6 +16,7 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -38,7 +39,6 @@ is a way to use a deck of cards to communicate securely.`,
 		var keystreamFlag, _ = cmd.Flags().GetString("keystream")
 		var keystreamfileFlag, _ = cmd.Flags().GetString("keystreamfile")
 		var verbose, _ = cmd.Flags().GetBool("verbose")
-
 		if verbose {
 			fmt.Printf("plaintext: %s,\nplainfile: %s,\nkeystream: %s,\nkeystreamfile: %s\n", plaintextFlag, plainfileFlag, keystreamFlag, keystreamfileFlag)
 		}
@@ -51,7 +51,8 @@ is a way to use a deck of cards to communicate securely.`,
 			}
 			plaintext = "Readintextfromfile"
 		} else {
-			plaintext = args[0]
+			//We only deal with upper case right now
+			plaintext = strings.ToUpper(args[0])
 		}
 
 		if verbose {
