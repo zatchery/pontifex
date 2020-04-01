@@ -51,6 +51,7 @@ var runeVals = map[rune]int{
 	rune('X'): 23,
 	rune('Y'): 24,
 	rune('Z'): 25,
+	rune(' '): 26,
 }
 
 var numVals = map[int]string{
@@ -80,6 +81,7 @@ var numVals = map[int]string{
 	23: "X",
 	24: "Y",
 	25: "Z",
+	26: " ",
 }
 
 var cardVals = map[string]int{
