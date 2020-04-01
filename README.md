@@ -1,6 +1,6 @@
 # Pontifex
 
-Go based project to play around with the Pontifex Cypher also know as the [Solitaire Cypher](http://handlebarsjs.com/). You can use this binary or a normal deck of cards to encrypt and decrypt messages. 
+Go based project to play around with the Pontifex Cypher also know as the [Solitaire Cypher](http://handlebarsjs.com/). You can use this binary or a normal deck of cards to encrypt and decrypt messages. If you are using a deck of cards in conjuction with this remember that programmers start counting at 0.
 
 
 # Usage
