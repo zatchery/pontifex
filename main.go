@@ -15,7 +15,7 @@
 package main
 
 import (
-	"github.com/zatchery/pontifex/cmd"
+	"pontifex/cmd"
 )
 
 func main() {

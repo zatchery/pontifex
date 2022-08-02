@@ -83,9 +83,5 @@ func init() {
 }
 
 func encrypt(plaintext string, keystream []string, verbose bool) (string, []string) {
-	if verbose {
-		fmt.Printf("Encrypting: %s\n", plaintext)
-		fmt.Println("Using Keystream: ", keystream)
-	}
 	return getCypherText(plaintext, keystream, verbose)
 }

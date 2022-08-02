@@ -52,6 +52,11 @@ var runeVals = map[rune]int{
 	rune('Y'): 24,
 	rune('Z'): 25,
 	rune(' '): 26,
+	rune('.'): 27,
+	rune(','): 28,
+	rune(':'): 29,
+	rune(';'): 30,
+	rune('?'): 31,
 }
 
 var numVals = map[int]string{
@@ -82,6 +87,11 @@ var numVals = map[int]string{
 	24: "Y",
 	25: "Z",
 	26: " ",
+	27: ".",
+	28: ",",
+	29: ":",
+	30: ";",
+	31: "?",
 }
 
 var cardVals = map[string]int{
@@ -203,9 +213,15 @@ func getPlainText(cyphertext string, deck []string, verbose bool) (string, []str
 		keystreamVal := cardVals[keystream]
 		cyphertextCharVal := runeVals[cyphertextChar]
 		plaintextTextVal := (cyphertextCharVal - keystreamVal)
+		if verbose {
+			fmt.Printf("original plaintextTextVal: %q\n", plaintextTextVal)
+		}
 		//nega mod
 		for plaintextTextVal < 0 {
 			plaintextTextVal += len(runeVals)
+		}
+		if verbose {
+			fmt.Printf("modified plaintextTextVal: %q\n", plaintextTextVal)
 		}
 		plainTextChar := numVals[plaintextTextVal]
 		plaintext = plaintext + plainTextChar

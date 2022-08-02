@@ -1,4 +1,7 @@
-*.txt
+
 /.vscode/launch.json
 /.DS_Store
+/.vscode*
+go.mod
+go.sum
 pontifex

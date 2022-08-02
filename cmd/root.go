@@ -49,10 +49,11 @@ func init() {
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.pontifex.json)")
 	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "Print additional debug messages")
+	rootCmd.PersistentFlags().BoolP("Version", "V", false, "Version 1.0")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	//rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
 }
 
